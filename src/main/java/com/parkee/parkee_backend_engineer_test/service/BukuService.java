@@ -56,4 +56,8 @@ public class BukuService {
         this.bukuRepository.delete(existBuku);
     }
 
+    public Buku save(Buku buku){
+        return this.bukuRepository.save(buku);
+    }
+
 }
