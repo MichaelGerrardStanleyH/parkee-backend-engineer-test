@@ -3,6 +3,7 @@ package com.parkee.parkee_backend_engineer_test.controller;
 import com.parkee.parkee_backend_engineer_test.dto.PeminjamRequestDTO;
 import com.parkee.parkee_backend_engineer_test.entity.Peminjam;
 import com.parkee.parkee_backend_engineer_test.service.PeminjamService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -32,14 +33,14 @@ public class PeminjamController {
     }
 
     @PostMapping
-    public ResponseEntity<?> createPeminjam(@RequestBody PeminjamRequestDTO dto){
+    public ResponseEntity<?> createPeminjam(@Valid @RequestBody PeminjamRequestDTO dto){
         Peminjam peminjam = this.peminjamService.create(dto);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(peminjam);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> updatePeminjam(@PathVariable("id") Long id, @RequestBody PeminjamRequestDTO dto){
+    public ResponseEntity<?> updatePeminjam(@PathVariable("id") Long id, @Valid @RequestBody PeminjamRequestDTO dto){
         Peminjam peminjam = this.peminjamService.update(id, dto);
 
         return ResponseEntity.status(HttpStatus.OK).body(peminjam);

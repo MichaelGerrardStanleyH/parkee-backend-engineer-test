@@ -3,6 +3,7 @@ package com.parkee.parkee_backend_engineer_test.controller;
 import com.parkee.parkee_backend_engineer_test.dto.BukuRequestDTO;
 import com.parkee.parkee_backend_engineer_test.entity.Buku;
 import com.parkee.parkee_backend_engineer_test.service.BukuService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -33,14 +34,14 @@ public class BukuController {
 
 
     @PostMapping
-    public ResponseEntity<?> createBuku(@RequestBody BukuRequestDTO dto){
+    public ResponseEntity<?> createBuku(@Valid @RequestBody BukuRequestDTO dto){
         Buku buku = this.bukuService.create(dto);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(buku);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> updateBuku(@PathVariable("id") Long id, @RequestBody BukuRequestDTO dto){
+    public ResponseEntity<?> updateBuku(@PathVariable("id") Long id, @Valid @RequestBody BukuRequestDTO dto){
         Buku buku = this.bukuService.update(id, dto);
 
         return ResponseEntity.status(HttpStatus.OK).body(buku);

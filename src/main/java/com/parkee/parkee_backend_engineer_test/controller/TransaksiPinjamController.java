@@ -4,6 +4,7 @@ import com.parkee.parkee_backend_engineer_test.dto.TransaksiBalikinBukuDTO;
 import com.parkee.parkee_backend_engineer_test.dto.TransaksiPinjamDTO;
 import com.parkee.parkee_backend_engineer_test.entity.TransaksiPinjam;
 import com.parkee.parkee_backend_engineer_test.service.TransaksiPinjamService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -32,7 +33,7 @@ public class TransaksiPinjamController {
     }
 
     @PostMapping("/pinjam")
-    public ResponseEntity<?> pinjam(@RequestBody TransaksiPinjamDTO dto){
+    public ResponseEntity<?> pinjam(@Valid @RequestBody TransaksiPinjamDTO dto){
         TransaksiPinjam transaksiPinjam = this.transaksiPinjamService.pinjamBuku(dto);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(transaksiPinjam);
@@ -46,7 +47,7 @@ public class TransaksiPinjamController {
     }
 
     @PostMapping("/balikin")
-    public ResponseEntity<?> balikinBuku(@RequestBody TransaksiBalikinBukuDTO dto){
+    public ResponseEntity<?> balikinBuku(@Valid @RequestBody TransaksiBalikinBukuDTO dto){
 
         TransaksiPinjam transaksiPinjam = this.transaksiPinjamService.balikinBuku(dto);
 
