@@ -1,6 +1,7 @@
 package com.parkee.parkee_backend_engineer_test.controller;
 
-import com.parkee.parkee_backend_engineer_test.dto.TransaksiPinjamRequestDTO;
+import com.parkee.parkee_backend_engineer_test.dto.TransaksiBalikinBukuDTO;
+import com.parkee.parkee_backend_engineer_test.dto.TransaksiPinjamDTO;
 import com.parkee.parkee_backend_engineer_test.entity.TransaksiPinjam;
 import com.parkee.parkee_backend_engineer_test.service.TransaksiPinjamService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,40 +10,47 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-
 @RestController
-@RequestMapping("/pinjam")
+@RequestMapping("/transaksi")
 public class TransaksiPinjamController {
 
     @Autowired
     private TransaksiPinjamService transaksiPinjamService;
 
-    @GetMapping
+    @GetMapping("/pinjam")
     public ResponseEntity<?> getAllPinjamDetail(){
         List<TransaksiPinjam> transaksiPinjamList = this.transaksiPinjamService.get();
 
         return ResponseEntity.status(HttpStatus.OK).body(transaksiPinjamList);
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/pinjam/{id}")
     public ResponseEntity<?> getPinjamDetail(@PathVariable("id") Long id){
         TransaksiPinjam existTransaksiPinjam = this.transaksiPinjamService.getById(id);
 
         return ResponseEntity.status(HttpStatus.OK).body(existTransaksiPinjam);
     }
 
-    @PostMapping
-    public ResponseEntity<?> pinjam(@RequestBody TransaksiPinjamRequestDTO dto){
+    @PostMapping("/pinjam")
+    public ResponseEntity<?> pinjam(@RequestBody TransaksiPinjamDTO dto){
         TransaksiPinjam transaksiPinjam = this.transaksiPinjamService.pinjamBuku(dto);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(transaksiPinjam);
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/pinjam/{id}")
     public ResponseEntity<?> deletePinjamDetail(@PathVariable("id") Long id){
         this.transaksiPinjamService.delete(id);
 
         return ResponseEntity.status(HttpStatus.OK).build();
+    }
+
+    @PostMapping("/balikin")
+    public ResponseEntity<?> balikinBuku(@RequestBody TransaksiBalikinBukuDTO dto){
+
+        TransaksiPinjam transaksiPinjam = this.transaksiPinjamService.balikinBuku(dto);
+
+        return ResponseEntity.status(HttpStatus.OK).body(transaksiPinjam);
     }
 
 

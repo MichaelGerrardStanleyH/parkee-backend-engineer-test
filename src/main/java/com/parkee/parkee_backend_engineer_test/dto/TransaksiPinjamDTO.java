@@ -11,7 +11,7 @@ import java.time.LocalDate;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class TransaksiPinjamRequestDTO {
+public class TransaksiPinjamDTO {
 
 
     private Long idBuku;

@@ -1,6 +1,7 @@
 package com.parkee.parkee_backend_engineer_test.service;
 
-import com.parkee.parkee_backend_engineer_test.dto.TransaksiPinjamRequestDTO;
+import com.parkee.parkee_backend_engineer_test.dto.TransaksiBalikinBukuDTO;
+import com.parkee.parkee_backend_engineer_test.dto.TransaksiPinjamDTO;
 import com.parkee.parkee_backend_engineer_test.entity.Buku;
 import com.parkee.parkee_backend_engineer_test.entity.Peminjam;
 import com.parkee.parkee_backend_engineer_test.entity.TransaksiPinjam;
@@ -39,7 +40,7 @@ public class TransaksiPinjamService {
         return existTransaksiPinjam;
     }
 
-    public TransaksiPinjam pinjamBuku(TransaksiPinjamRequestDTO dto){
+    public TransaksiPinjam pinjamBuku(TransaksiPinjamDTO dto){
         Buku existBuku = this.bukuService.getById(dto.getIdBuku());
 
         if(existBuku.getStokBuku() < 1){
@@ -65,6 +66,30 @@ public class TransaksiPinjamService {
         transaksiPinjam.setBuku(existBuku);
         transaksiPinjam.setPeminjam(existPeminjam);
         transaksiPinjam.setDeadlinePengembalian(dto.getDeadlinePengembalian());
+
+        return this.transaksiPinjamRepository.save(transaksiPinjam);
+    }
+
+    public TransaksiPinjam balikinBuku(TransaksiBalikinBukuDTO dto){
+
+        Peminjam existPeminjam = this.peminjamService.getById(dto.getIdPeminjam());
+
+        Optional<TransaksiPinjam> optionalTransaksiPinjam = this.transaksiPinjamRepository.findByPeminjamAndIsPinjam(existPeminjam, true);
+
+        if(optionalTransaksiPinjam.isEmpty()){
+            throw new ValidationException("tidak ada buku untuk dikembalikan");
+        }
+
+        TransaksiPinjam transaksiPinjam = optionalTransaksiPinjam.get();
+        Buku buku = transaksiPinjam.getBuku();
+
+        buku.setStokBuku(buku.getStokBuku() + 1);
+
+        transaksiPinjam.setTanggalPengembalian(LocalDate.now());
+        transaksiPinjam.setIsPinjam(false);
+        transaksiPinjam.setIsTepatWaktu(
+                !transaksiPinjam.getTanggalPengembalian().isAfter(transaksiPinjam.getDeadlinePengembalian())
+        );
 
         return this.transaksiPinjamRepository.save(transaksiPinjam);
     }
