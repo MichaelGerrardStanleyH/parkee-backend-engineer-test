@@ -24,7 +24,7 @@ public class TransaksiPinjamDTO {
     @Min(value=1, message="minimal input 1")
     private Long idPeminjam;
 
-    @NotBlank(message = "deadline pengembalian tidak boleh kosong")
+    @NotNull(message = "deadline pengembalian tidak boleh kosong")
     private LocalDate deadlinePengembalian;
 
 }

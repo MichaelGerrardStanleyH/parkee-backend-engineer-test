@@ -41,6 +41,11 @@ public class TransaksiPinjamService {
     }
 
     public TransaksiPinjam pinjamBuku(TransaksiPinjamDTO dto){
+
+        if(dto.getDeadlinePengembalian().isAfter(LocalDate.now().plusDays(31))){
+            throw new ValidationException("deadline peminjaman tidak boleh lebih dari 30 hari");
+        }
+
         Buku existBuku = this.bukuService.getById(dto.getIdBuku());
 
         if(existBuku.getStokBuku() < 1){
