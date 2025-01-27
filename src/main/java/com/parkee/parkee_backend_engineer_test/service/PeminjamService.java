@@ -22,7 +22,7 @@ public class PeminjamService {
 
     public Peminjam getById(Long id){
         return this.peminjamRepository.findById(id).orElseThrow(
-                () -> new EntityNotFoundException("no peminjam with id " + id)
+                () -> new EntityNotFoundException("tidak ada peminjam dengan id " + id)
         );
     }
 

@@ -21,7 +21,7 @@ public class BukuService {
 
     public Buku getById(Long id){
         Buku existBuku = this.bukuRepository.findById(id).orElseThrow(
-                () -> new EntityNotFoundException("no buku with id " + id)
+                () -> new EntityNotFoundException("tidak ada buku dengan id " + id)
         );
 
         return existBuku;

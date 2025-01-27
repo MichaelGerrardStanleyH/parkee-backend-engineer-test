@@ -34,7 +34,7 @@ public class TransaksiPinjamService {
 
     public TransaksiPinjam getById(Long id){
         TransaksiPinjam existTransaksiPinjam = this.transaksiPinjamRepository.findById(id).orElseThrow(
-                () -> new EntityNotFoundException("no transaksi pinjam with id " + id)
+                () -> new EntityNotFoundException("tidak ada transaksi pinjam dengan id " + id)
         );
 
         return existTransaksiPinjam;
