@@ -42,14 +42,8 @@ public class TransaksiPinjamService {
 
     public TransaksiPinjam pinjamBuku(TransaksiPinjamDTO dto){
 
-        if(dto.getDeadlinePengembalian().isAfter(LocalDate.now().plusDays(31))){
+        if(dto.getDeadlinePengembalian().isAfter(LocalDate.now().plusDays(30))){
             throw new ValidationException("deadline peminjaman tidak boleh lebih dari 30 hari");
-        }
-
-        Buku existBuku = this.bukuService.getById(dto.getIdBuku());
-
-        if(existBuku.getStokBuku() < 1){
-            throw new ValidationException("Stock buku habis");
         }
 
         Peminjam existPeminjam = this.peminjamService.getById(dto.getIdPeminjam());
@@ -59,6 +53,14 @@ public class TransaksiPinjamService {
         if(optionalTransaksiPinjam.isPresent()){
             throw new ValidationException("Ada peminjaman yang sedang berjalan");
         }
+
+        Buku existBuku = this.bukuService.getById(dto.getIdBuku());
+
+        if(existBuku.getStokBuku() < 1){
+            throw new ValidationException("Stock buku habis");
+        }
+
+
 
         existBuku.setStokBuku(existBuku.getStokBuku() - 1);
 //        this.bukuService.save(existBuku);
